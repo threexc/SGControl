@@ -11,8 +11,9 @@ These instructions are taken from Keysight document E4400-90627 with the intent 
 3. To send a file to the E4438C:
   1. If it's a waveform file, type "put <filename.wfm> /user/waveform/<filename1>"
 	2. If it's a marker file, type "put <filename.mkr> /user/marker/<filename1>"
+	3. If it's a binary file, type "put <file_name> /user/bin/filename"
 	**Note:** This must be followed exactly in order for the files to be compatible and loaded correctly later on. *Do not* add .wfm or .mkr suffixes to the filename on the E4438C!
 4. Similarly, to retrieve a file from the E4438C:
   1. If it's a waveform file, type "get /user/waveform/file file1.wfm", where "file1.wfm" is the name it will have once it is on your workstation
 	2. If it's a marker file, type "get /user/marker/file file1.mkr"
-5. Type "bye" followed by "exit" to end the FTP session with the E4438C
+6. Type "bye" followed by "exit" to end the FTP session with the E4438C
