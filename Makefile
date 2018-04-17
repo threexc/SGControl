@@ -6,14 +6,18 @@ TESTDIR=test
 
 all:
 
+# TODO: Convert lanio to ks_lanio to differentiate from eventual service
 lanio:
 	$(CC) $(KDIR)/lanio.c $(KDIR)/getopt.c -o $(BINDIR)/lanio
 
 echo:
 	$(CC) $(TESTDIR)/echo_server.c -o $(BINDIR)/echo_server
 
+ks_iq:
+	$(CC) $(KDIR)/iq.c -o $(BINDIR)/iq
+
 .PHONY:
 	clean
 
 clean:
-	rm -f $(BINDIR)/lanio $(BINDIR)/echo_server
+	rm -f $(BINDIR)/lanio $(BINDIR)/echo_server $(BINDIR)/iq
