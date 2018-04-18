@@ -14,7 +14,7 @@ echo:
 	$(CC) $(TESTDIR)/echo_server.c -o $(BINDIR)/echo_server
 
 ks_iq:
-	$(CC) $(KDIR)/iq.c -o $(BINDIR)/iq
+	$(CC) $(KDIR)/iq.c -o $(BINDIR)/iq -lm
 
 .PHONY:
 	clean
