@@ -42,12 +42,16 @@ TEST_BPSK with a Q offset.
 13. :SYST:ERR? - returns the most recent error message in the queue
 14. :RAD:ARB:GEN:SINE "Sine_Wave",60,.5,IQ - generates I/Q sine wave and saves it to the "Sine Wave" file
 15. :MEMory:COPY:NAME "<NVWFM:file_name>","<WFM1:file_name>"
-:MEMory:COPY:NAME "<NVMKR:file_name>","<MKR1:file_name>"
-:MEMory:COPY:NAME "<,"<HDR:file_name>"
+16. :MEMory:COPY:NAME "<NVMKR:file_name>","<MKR1:file_name>"
+17. :MEMory:COPY:NAME "<,"<HDR:file_name>"
+
+
 
 The above all load the WFM/MKR/HDR files into volatile memory. Files must be loaded from NVMEM before playback.
 
 *Below is the process for setting a specific waveform file as the target file, and putting it on RF OUT*
+
+
 16. :MMEMory:CATalog? "WFM1:" - list waveform files in volatile memory
 17. :SOURce:RADio:ARB:WAVeform "WFM1:<file_name>" - set a waveform file as the source data to be used
 18. :SOURce:RADio:ARB:STATe ON
