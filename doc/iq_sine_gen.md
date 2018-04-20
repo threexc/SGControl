@@ -40,4 +40,4 @@ TEST_BPSK with a Q offset.
 11. :MEM:FREE? - returns the amount of free space (in bytes) in the filesystem
 12. :MEM:DATA "<file_name>", <data_block> - loads <datablock> into the given filename
 13. :SYST:ERR? - returns the most recent error message in the queue
-14.
+14. :RAD:ARB:GEN:SINE "Sine_Wave",60,.5,IQ - generates I/Q sine wave and saves it to the "Sine Wave" file
