@@ -8,7 +8,7 @@
 #include <string.h>
 #include <math.h>
 const int POINTS = 1000;  // Size of waveform
-const char *computer = “PCWIN”;
+const char *computer = "PCWIN";
 int main(int argc, char* argv[])
 {
   // 1.) Create Simple IQ Signal *****************************************
@@ -27,42 +27,8 @@ int main(int argc, char* argv[])
   double scale = 1;
   char buf; // Used for byte swapping
   char *pChar; // Used for byte swapping
-  bool PC = true; // Set flag as appropriate
-  double phaseInc   // This process is just the reverse of saving the waveform
-  // Read in waveform as unsigned short integers.
-  // Swap the bytes as necessary
-  // Normalize between +-1
-  // De-interleave the I/Q Data
-  // Open the file and load the internal format data
-  stream = fopen(filename, “r+b”);// Open the file
-  if (stream==NULL)
-    perror (“Cannot Open File”);
-  int numread = fread( (void *)waveform, sizeof( short ),  points*2, stream );
-  fclose(stream);// Close the file
-
-  // If on a PC swap the bytes back to Little Endian
-  if( strcmp(computer,”PCWIN”) == 0 )
-  {
-    pChar = (char *)&waveform[0];   // Character pointer to short int data
-    for( i=0; i<2*points; i++ )
-    {
-      buf = *pChar;
-      *pChar = *(pChar+1);
-      *(pChar+1) = buf;
-      pChar+= 2;
-    }
-  }
-  // Normalize De-Interleave the IQ data
-  double IwaveIn[POINTS];
-  double QwaveIn[POINTS];
-
-  for( i=0; i<points; i++)
-  {
-    IwaveIn[i] = waveform[2*i] / 32767.0;
-    QwaveIn[i] = waveform[2*i+1] / 32767.0;
-  }
-  return 0;
-  }= 2.0 * 3.141592654 * cycles / points;
+  int PC = 1; // Set flag as appropriate
+  double phaseInc= 2.0 * 3.141592654 * cycles / points;
   double phase = 0;
   int i = 0;
 
@@ -89,47 +55,66 @@ int main(int argc, char* argv[])
   minAmp = Iwave[0];
   for( i=0; i<points; i++)
   {
-      if( maxAmp < Iwave[i] )
-  maxAmp = Iwave[i];
-       else if( minAmp > Iwave[i] )
-  minAmp = Iwave[i];
-      if( maxAmp < Qwave[i] )
-  maxAmp = Qwave[i];
-      else if( minAmp > Qwave[i] )
-  minAmp = Qwave[i];
-  }
-  maxAmp = fabs(maxAmp);
-  minAmp = fabs(minAmp);
-  if( minAmp > maxAmp )
-  maxAmp = minAmp;
-  // Convert to short integers and interleave I/Q data
-  scale = 32767 / maxAmp;     // Watch out for divide by zero.
-  for( i=0; i<points; i++)
-  {
-  waveform[2*i] = (short)floor(Iwave[i]*scale + 0.5);
-  waveform[2*i+1] = (short)floor(Qwave[i]*scale + 0.5);
-  }
-  // If on a PC swap the bytes to Big Endian
-  if( strcmp(computer,”PCWIN”) == 0 )
-  //if( PC )
-  {
-  pChar = (char *)&waveform[0];   // Character pointer to short int data
-  for( i=0; i<2*points; i++ )
-  {
-  buf = *pChar;
-  *pChar = *(pChar+1);
-  *(pChar+1) = buf;
-  pChar+= 2;
-  }
-  }
+	  if( maxAmp < Iwave[i] )
+		{
+			maxAmp = Iwave[i];
+		}
+	  else if( minAmp > Iwave[i] )
+		{
+			minAmp = Iwave[i];
+		}
+
+	  if( maxAmp < Qwave[i] )
+		{
+			maxAmp = Qwave[i];
+		}
+	  else if( minAmp > Qwave[i] )
+		{
+			minAmp = Qwave[i];
+		}
+
+	  }
+
+	  maxAmp = fabs(maxAmp);
+	  minAmp = fabs(minAmp);
+
+	  if( minAmp > maxAmp )
+		{
+			maxAmp = minAmp;
+		}
+
+	  // Convert to short integers and interleave I/Q data
+	  scale = 32767 / maxAmp;     // Watch out for divide by zero.
+	  for( i=0; i<points; i++)
+	  {
+		  waveform[2*i] = (short)floor(Iwave[i]*scale + 0.5);
+		  waveform[2*i+1] = (short)floor(Qwave[i]*scale + 0.5);
+	  }
+	  // If on a PC swap the bytes to Big Endian
+	  if( strcmp(computer,"PCWIN") == 0 )
+	  //if( PC )
+	  {
+		  pChar = (char *)&waveform[0];   // Character pointer to short int data
+		  for( i=0; i<2*points; i++ )
+		  {
+		  buf = *pChar;
+		  *pChar = *(pChar+1);
+		  *(pChar+1) = buf;
+		  pChar+= 2;
+		  }
+	  }
 
   // Save the data to a file
   // Use FTP or one of the download assistants to download the file to the
   // signal generator
-  char *filename = “C:\\Temp\\PSGTestFile”;
+  char *filename = "test_iq_out";
   FILE *stream = NULL;
-  stream = fopen(filename, “w+b”);// Open the file
-  if (stream==NULL) perror (“Cannot Open File”);
+  stream = fopen(filename, "w+b");// Open the file
+  if (stream==NULL)
+	{
+		perror ("Cannot Open File");
+	}
+
   int numwritten = fwrite( (void *)waveform, sizeof( short ), points*2, stream );
   fclose(stream);// Close the file
 
@@ -140,29 +125,33 @@ int main(int argc, char* argv[])
   // Normalize between +-1
   // De-interleave the I/Q Data
   // Open the file and load the internal format data
-  stream = fopen(filename, “r+b”);// Open the file
-  if (stream==NULL) perror (“Cannot Open File”);
+  stream = fopen(filename, "r+b");// Open the file
+  if (stream==NULL)
+	{
+		perror ("Cannot Open File");
+	}
+
   int numread = fread( (void *)waveform, sizeof( short ),  points*2, stream );
   fclose(stream);// Close the file
   // If on a PC swap the bytes back to Little Endian
-  if( strcmp(computer,”PCWIN”) == 0 )
+  if( strcmp(computer,"PCWIN") == 0 )
   {
-  pChar = (char *)&waveform[0];   // Character pointer to short int data
-  for( i=0; i<2*points; i++ )
-  {
-  buf = *pChar;
-  *pChar = *(pChar+1);
-  *(pChar+1) = buf;
-  pChar+= 2;
-  }
+	  pChar = (char *)&waveform[0];   // Character pointer to short int data
+	  for( i=0; i<2*points; i++ )
+	  {
+	  buf = *pChar;
+	  *pChar = *(pChar+1);
+	  *(pChar+1) = buf;
+	  pChar+= 2;
+	  }
   }
   // Normalize De-Interleave the IQ data
   double IwaveIn[POINTS];
   double QwaveIn[POINTS];
   for( i=0; i<points; i++)
   {
-  IwaveIn[i] = waveform[2*i] / 32767.0;
-  QwaveIn[i] = waveform[2*i+1] / 32767.0;
+	  IwaveIn[i] = waveform[2*i] / 32767.0;
+	  QwaveIn[i] = waveform[2*i+1] / 32767.0;
   }
   return 0;
-  }
+}
