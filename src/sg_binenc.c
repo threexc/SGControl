@@ -5,9 +5,12 @@ int sg_binenc(void *i_array, void *q_array, int num_points,
 							short *waveform_array)
 {
 	int i;
+	double scale;
+	char *pChar;
+	char buf;
 
-	max_amp = i_array[0];
-	min_amp = i_array[0];
+	double max_amp = i_array[0];
+	double min_amp = i_array[0];
 
 	for (i = 0; i < num_points; i++)
 	{
@@ -42,13 +45,13 @@ int sg_binenc(void *i_array, void *q_array, int num_points,
 	scale = 32767 / max_amp;
 	for (i = 0; i < num_points; i++)
 	{
-		waveform[2*i] = (short)floor(i_array[i]*scale + 0.5);
-		waveform[2*i+1] = (short)floor(q_array[i]*scale + 0.5);
+		waveform_array[2*i] = (short)floor(i_array[i]*scale + 0.5);
+		waveform_array[2*i+1] = (short)floor(q_array[i]*scale + 0.5);
 	}
 
 	/* Swap bytes to Big-Endian */
-	pChar = (char *)&waveform[0];
-	for( i=0; i<2*points; i++ )
+	pChar = (char *)&waveform_array[0];
+	for( i=0; i<2*num_points; i++ )
 	{
 		buf = *pChar;
 		*pChar = *(pChar+1);

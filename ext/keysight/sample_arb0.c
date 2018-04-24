@@ -10,6 +10,10 @@
 const int POINTS = 1000;  // Size of waveform
 const char *computer = "PCWIN";
 
+int sg_binenc(double *i_array, double *q_array, int num_points,
+              short *waveform_array);
+int write_encoded(char *filename, short *waveform_array, int num_points);
+
 int main(int argc, char* argv[])
 {
   // 1.) Create Simple IQ Signal *****************************************
@@ -23,12 +27,6 @@ int main(int argc, char* argv[])
   double Iwave[POINTS]; // I waveform
   double Qwave[POINTS]; // Q waveform
   short int waveform[2*POINTS]; // Holds interleaved I/Q data
-  double maxAmp = 0; // Used to Normalize waveform data
-  double minAmp = 0; // Used to Normalize waveform data
-  double scale = 1;
-  char buf; // Used for byte swapping
-  char *pChar; // Used for byte swapping
-  int PC = 1; // Set flag as appropriate
   double phaseInc= 2.0 * 3.141592654 * cycles / points;
   double phase = 0;
   int i = 0;
@@ -64,7 +62,7 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-int write_encoded(char *filename, int *waveform_array, int num_points)
+int write_encoded(char *filename, short *waveform_array, int num_points)
 {
 	FILE *stream = NULL;
 	if ((stream = fopen(filename, "w+b")) == NULL)
@@ -79,10 +77,13 @@ int write_encoded(char *filename, int *waveform_array, int num_points)
 	return 0;
 }
 
-int sg_binenc(void *i_array, void *q_array, int num_points,
+int sg_binenc(double *i_array, double *q_array, int num_points,
 							short *waveform_array)
 {
 	int i;
+	double scale;
+	char *pChar;
+	char buf;
 
 	double max_amp = i_array[0];
 	double min_amp = i_array[0];
@@ -117,7 +118,7 @@ int sg_binenc(void *i_array, void *q_array, int num_points,
 	}
 
 	/* The 32767 value is due to the E4438C using 16-bit signed integers */
-	double scale = 32767 / max_amp;
+	scale = 32767 / max_amp;
 	for (i = 0; i < num_points; i++)
 	{
 		waveform_array[2*i] = (short)floor(i_array[i]*scale + 0.5);
@@ -125,10 +126,10 @@ int sg_binenc(void *i_array, void *q_array, int num_points,
 	}
 
 	/* Swap bytes to Big-Endian */
-	char *pChar = (char *)&waveform_array[0];
+	pChar = (char *)&waveform_array[0];
 	for( i=0; i<2*num_points; i++ )
 	{
-		char buf = *pChar;
+		buf = *pChar;
 		*pChar = *(pChar+1);
 		*(pChar+1) = buf;
 		pChar+= 2;
