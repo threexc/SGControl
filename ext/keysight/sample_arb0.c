@@ -52,59 +52,8 @@ int main(int argc, char* argv[])
   // This is opposite of how short integers are saved on a PC (Little Endian).
   // For this reason the data bytes are swapped before being saved.
   // Find the Maximum amplitude in I and Q to normalize the data between +-1
-  maxAmp = Iwave[0];
-  minAmp = Iwave[0];
-  for( i=0; i<points; i++)
-  {
-	  if( maxAmp < Iwave[i] )
-		{
-			maxAmp = Iwave[i];
-		}
-	  else if( minAmp > Iwave[i] )
-		{
-			minAmp = Iwave[i];
-		}
 
-	  if( maxAmp < Qwave[i] )
-		{
-			maxAmp = Qwave[i];
-		}
-	  else if( minAmp > Qwave[i] )
-		{
-			minAmp = Qwave[i];
-		}
-
-	  }
-
-	  maxAmp = fabs(maxAmp);
-	  minAmp = fabs(minAmp);
-
-	  if( minAmp > maxAmp )
-		{
-			maxAmp = minAmp;
-		}
-
-	  // Convert to short integers and interleave I/Q data
-	  scale = 32767 / maxAmp;     // Watch out for divide by zero.
-	  for( i=0; i<points; i++)
-	  {
-		  waveform[2*i] = (short)floor(Iwave[i]*scale + 0.5);
-		  waveform[2*i+1] = (short)floor(Qwave[i]*scale + 0.5);
-	  }
-	  // If on a PC swap the bytes to Big Endian
-	  if( strcmp(computer,"PCWIN") == 0 )
-	  //if( PC )
-	  {
-		  pChar = (char *)&waveform[0];   // Character pointer to short int data
-		  for( i=0; i<2*points; i++ )
-		  {
-		  buf = *pChar;
-		  *pChar = *(pChar+1);
-		  *(pChar+1) = buf;
-		  pChar+= 2;
-		  }
-	  }
-
+	int y = sg_binenc(Iwave, Qwave, points, waveform);
 
   // Save the data to a file
   // Use FTP or one of the download assistants to download the file to the
@@ -126,6 +75,64 @@ int write_encoded(char *filename, int *waveform_array, int num_points)
 
 	int num_written = fwrite((void *)waveform_array, sizeof(short), num_points*2, stream);
 	fclose(stream);
+
+	return 0;
+}
+
+int sg_binenc(void *i_array, void *q_array, int num_points,
+							short *waveform_array)
+{
+	int i;
+
+	double max_amp = i_array[0];
+	double min_amp = i_array[0];
+
+	for (i = 0; i < num_points; i++)
+	{
+		if (max_amp < i_array[i])
+		{
+			max_amp = i_array[i];
+		}
+		else if(min_amp > i_array[i])
+		{
+			min_amp = i_array[i];
+		}
+
+		if( max_amp < q_array[i] )
+		{
+			max_amp = q_array[i];
+		}
+	  else if( min_amp > q_array[i] )
+		{
+			min_amp = q_array[i];
+		}
+	}
+
+	max_amp = fabs(max_amp);
+	min_amp = fabs(min_amp);
+
+	if (min_amp > max_amp)
+	{
+		max_amp = min_amp;
+	}
+
+	/* The 32767 value is due to the E4438C using 16-bit signed integers */
+	double scale = 32767 / max_amp;
+	for (i = 0; i < num_points; i++)
+	{
+		waveform_array[2*i] = (short)floor(i_array[i]*scale + 0.5);
+		waveform_array[2*i+1] = (short)floor(q_array[i]*scale + 0.5);
+	}
+
+	/* Swap bytes to Big-Endian */
+	char *pChar = (char *)&waveform_array[0];
+	for( i=0; i<2*num_points; i++ )
+	{
+		char buf = *pChar;
+		*pChar = *(pChar+1);
+		*(pChar+1) = buf;
+		pChar+= 2;
+	}
 
 	return 0;
 }
