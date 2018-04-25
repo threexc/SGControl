@@ -1,8 +1,8 @@
 #include <math.h>
 #include <stdio.h>
 
-int sg_binenc(void *i_array, void *q_array, int num_points,
-							short *waveform_array)
+int sg_binenc(double *i_array, double *q_array, int num_points,
+							short int *waveform_array)
 {
 	int i;
 	double scale;
@@ -67,7 +67,7 @@ int sg_bindec(void *binary_file)
 	return 0;
 }
 
-int write_encoded(char *filename, int *waveform_array, int num_points)
+int write_encoded(char *filename, short int *waveform_array, int num_points)
 {
 	FILE *stream = NULL;
 	if ((stream = fopen(filename, "w+b")) == NULL)
@@ -76,7 +76,7 @@ int write_encoded(char *filename, int *waveform_array, int num_points)
 		return 0;
 	}
 
-	int num_written = fwrite((void *)waveform, sizeof(short), num_points*2, stream);
+	int num_written = fwrite((void *)waveform_array, sizeof(short), num_points*2, stream);
 	fclose(stream);
 
 	return 0;
