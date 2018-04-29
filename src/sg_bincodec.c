@@ -1,4 +1,4 @@
-/* sg_codec - Tools for encoding and decoding I/Q data for use with the
+/* sg_bincodec - Tools for encoding and decoding I/Q data for use with the
 E4438C signal generator */
 
 #include <math.h>

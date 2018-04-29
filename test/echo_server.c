@@ -61,7 +61,7 @@ int main(void)
         read(comm_fd, str, BUF_SIZE);
 
         printf("Echoing back - %s",str);
-				
+
         /* Write the received message to stdout */
         write(comm_fd, str, strlen(str)+1);
 
