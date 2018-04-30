@@ -8,6 +8,8 @@ responses, and then quit, the "main1" loop from lanio.c was used as this
 version's baseline, while the "main" loop was discarded. */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "sg_control.h"
 
 int main(int argc, char *argv[])
