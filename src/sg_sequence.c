@@ -47,19 +47,26 @@ int main(int argc, char *argv[])
   long buf_bytes;
 
   /* Create a filename with timestamp for the sequence log */
+  char *extension = ".log";
   char *timestamp;
   time_t ltime; /* calendar time */
   ltime=time(NULL); /* get current cal time */
   timestamp = asctime(localtime(&ltime));
-  char log_filename[] = "log_";
-  strcat(log_filename, timestamp);
 
-  /* Remove logfile name whitespace */
+  char log_filename[80] = "";
+  snprintf(log_filename, sizeof(log_filename), "%s%s", timestamp, extension);
+  //strcpy(log_filename, timestamp);
+  //strcat(log_filename, ".log");
+  printf("%s\n", log_filename);
+
+  /* Remove logfile name whitespace and colons */
   int i = 0;
   while (log_filename[i])
   {
-    if (log_filename[i] == ' ')
+    if (log_filename[i] == ' ' || log_filename[i] == ':')
+    {
         log_filename[i] = '_';
+    }
     i++;
   }
 
@@ -70,18 +77,37 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Unable to open socket.\n");
     return 1;
   }
-  FILE *file = NULL;
-  file = fopen(input_filename, "r");
-  if(file == NULL)
+  FILE *in_file = NULL;
+  in_file = fopen(input_filename, "r");
+  if(in_file == NULL)
   {
-    perror("Could not open the file.\n");
+    perror("Could not open the input file.\n");
   }
-  /* Read line-by-line from the input file without stripping terminating \n */
-  while (fgets(input_buf, sizeof(input_buf), file))
+
+  FILE *log_file = NULL;
+  log_file = fopen(log_filename, "w");
+  if(log_file == NULL)
   {
-        /* note that fgets don't strip the terminating \n, checking its
-           presence would allow to handle lines longer that sizeof(line) */
-        printf("%s", input_buf);
+    perror("Could not open the log file.\n");
+  }
+
+  /* Always add a header to the log file */
+  fprintf(log_file, "Test sequence recorded on %s\n", timestamp);
+
+  /* Always add the identification of the instrument to the log file before the
+  test sequence results */
+  buf_bytes = query_instrument(inst_sock, "*IDN?\n", char_buf, INPUT_BUF_SIZE);
+  fprintf(log_file, "Instrument ID: %s\n", char_buf);
+
+  /* Read line-by-line from the input file, then write responses to the log */
+  while (fgets(input_buf, sizeof(input_buf), in_file))
+  {
+        buf_bytes = query_instrument(inst_sock, input_buf, char_buf,
+                                     INPUT_BUF_SIZE);
+        /* Remove newline from the fgets buffer only so that the log file will
+        be cleaner. Newline in query_instrument response is still present */
+        input_buf[strcspn(input_buf, "\n")] = 0;
+        fprintf(log_file, "%s response: %s\n", input_buf, char_buf);
   }
   /*
   buf_bytes = query_instrument(inst_sock, "*IDN?\n", char_buf, INPUT_BUF_SIZE);
@@ -98,5 +124,8 @@ int main(int argc, char *argv[])
   printf("\n"); */
 
   close(inst_sock);
+  fclose(in_file);
+  fclose(log_file);
+  free(char_buf);
   return 0;
 }
