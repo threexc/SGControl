@@ -13,6 +13,7 @@ version's baseline, while the "main" loop was discarded.
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
 #include "sg_control.h"
 
 /* TODO: Improve this main loop with an XML reader, or another way to add more
@@ -47,17 +48,16 @@ int main(int argc, char *argv[])
   long buf_bytes;
 
   /* Create a filename with timestamp for the sequence log */
-  char *extension = ".log";
   char *timestamp;
   time_t ltime; /* calendar time */
   ltime=time(NULL); /* get current cal time */
   timestamp = asctime(localtime(&ltime));
 
+  /* Strip newline out of the timestamp to avoid buggy filenames */
+  timestamp[strcspn(timestamp, "\n")] = 0;
+  /* Create the filename buffer */
   char log_filename[80] = "";
-  snprintf(log_filename, sizeof(log_filename), "%s%s", timestamp, extension);
-  //strcpy(log_filename, timestamp);
-  //strcat(log_filename, ".log");
-  printf("%s\n", log_filename);
+  snprintf(log_filename, sizeof(log_filename), "%s%s%s", "sgseq_", timestamp, ".log");
 
   /* Remove logfile name whitespace and colons */
   int i = 0;
