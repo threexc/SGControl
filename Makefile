@@ -64,4 +64,4 @@ directories:
 .PHONY: clean
 
 clean:
-	rm -f ks_lanio echo_server ks_iq sg_sequence sg_binenc
+	rm -f ks_lanio echo_server ks_iq sg_sequence sg_binenc iq.txt

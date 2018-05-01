@@ -54,8 +54,13 @@ SGControl should be compatible with any system supporting recent versions of
 the gcc compiler and the C standard libraries.
 
 The code in SGControl has been tested and run from two desktop machines and one
-laptop, all of which are/were running Fedora 26 and/or Fedora 27 64-bit at the 
-time of development. 
+laptop, all of which are/were running Fedora 26 and/or Fedora 27 64-bit at the
+time of development.
+
+In order to use the sg_sequence tool, the target device must be provided a known
+IP on the same network as the controlling machine. A sample signal generator IP
+is currently hard-coded in the sg_sequence.c file, so the IP provided must be
+entered in its place before use.
 
 ### Authors
 
