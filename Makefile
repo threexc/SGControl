@@ -36,7 +36,11 @@ legacy: directories ks_lanio ks_iq
 
 # Make the control sequence utility. Note that this forces the directories
 # target to be run before the $(CTL_OBJ) target
-sg_sequence: $(CTL_OBJ) | directories
+sg_sequence: directories sgseq
+
+# Internal sequence control make option. Will not work if the directories made
+# by the directories rule are not present
+sgseq: $(CTL_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 # Placeholder for the encoder/decoder tool. Libraries are written, but
