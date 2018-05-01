@@ -7,6 +7,7 @@ LDIR=lib
 ODIR=obj
 SRCDIR=src
 TESTDIR=test
+MKDIR_P=mkdir -p
 
 LIBS= -lm
 
@@ -28,13 +29,14 @@ $(ODIR)/%.o: $(SRCDIR)/%.c $(ENC_DEPS) $(CTL_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 # Everything
-all: ks_lanio ks_iq echo sg_sequence
+all: directories ks_lanio ks_iq echo sg_sequence
 
 # Make only the Keysight utilities
-legacy: ks_lanio ks_iq echo
+legacy: directories ks_lanio ks_iq
 
-# Make the control sequence utility
-sg_sequence: $(CTL_OBJ)
+# Make the control sequence utility. Note that this forces the directories
+# target to be run before the $(CTL_OBJ) target
+sg_sequence: $(CTL_OBJ) | directories
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 # Placeholder for the encoder/decoder tool. Libraries are written, but
@@ -54,8 +56,12 @@ echo:
 ks_iq:
 	$(CC) $(KDIR)/iq.c -o ks_iq $(LIBS)
 
-.PHONY:
-	clean
+directories:
+	$(MKDIR_P) $(LDIR) $(ODIR) $(TESTDIR)
+
+.PHONY: directories
+
+.PHONY: clean
 
 clean:
 	rm -f ks_lanio echo_server ks_iq sg_sequence sg_binenc

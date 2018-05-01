@@ -34,4 +34,4 @@ long query_instrument(SOCKET sock, const char *command, char *result, size_t max
 void show_errors(SOCKET sock);
 unsigned char is_query(char* cmd);
 
-endif
+#endif
