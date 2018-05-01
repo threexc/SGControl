@@ -210,41 +210,41 @@ void show_errors(SOCKET sock)
   do
   {
     query_instrument(sock, command, result_str, sizeof(result_str)-1);
-/******************************************************************
-* Typical result_str:
-*     -221,"Settings conflict; Frequency span reduced."
-*     +0,"No error"
-* Don't bother decoding.
-******************************************************************/
-    if (strncmp(result_str, "+0,", 3) == 0) {
-      /* Matched +0,"No error" */
-      break;
-    }
+	/******************************************************************
+	* Typical result_str:
+	*     -221,"Settings conflict; Frequency span reduced."
+	*     +0,"No error"
+	* Don't bother decoding.
+	******************************************************************/
+	    if (strncmp(result_str, "+0,", 3) == 0) {
+	      /* Matched +0,"No error" */
+	      break;
+	    }
 
-    puts(result_str);
-  } while (1);
-}
+	    puts(result_str);
+	  } while (1);
+	}
 
-/* Check if a command passed has a ? in it to designate it as a query. If so,
-query_instrument should be used instead of command_instrument. */
-unsigned char is_query( char* cmd )
-{
-  unsigned char q = 0 ;
-  char *query ;
-/*********************************************************/
-/* if the command has a '?' in it, use query_instrument.  */
-/* otherwise, simply send the command.                   */
-/* Actually, we must be a more specific so that   */
-/* marker value querys are treated as commands.         */
-/* Example:  SENS:FREQ:CENT (CALC1:MARK1:X?)             */
-/*********************************************************/
-  if ( (query = strchr(cmd,'?')) != NULL)
-  {
-/* Make sure we don't have a marker value query, or
- * any command with a '?' followed by a ')' character.
- * This kind of command is not a query from our point of view.
- * The signal generator does the query internally, and uses the result.
- */
+	/* Check if a command passed has a ? in it to designate it as a query. If so,
+	query_instrument should be used instead of command_instrument. */
+	unsigned char is_query( char* cmd )
+	{
+	  unsigned char q = 0 ;
+	  char *query ;
+	/*********************************************************/
+	/* if the command has a '?' in it, use query_instrument.  */
+	/* otherwise, simply send the command.                   */
+	/* Actually, we must be a more specific so that   */
+	/* marker value querys are treated as commands.         */
+	/* Example:  SENS:FREQ:CENT (CALC1:MARK1:X?)             */
+	/*********************************************************/
+	  if ( (query = strchr(cmd,'?')) != NULL)
+	  {
+	/* Make sure we don't have a marker value query, or
+	 * any command with a '?' followed by a ')' character.
+	 * This kind of command is not a query from our point of view.
+	 * The signal generator does the query internally, and uses the result.
+	 */
     query++ ;       /* bump past '?' */
     while (*query)
     {

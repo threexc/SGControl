@@ -1,25 +1,67 @@
 # SGControl
 
-SGControl contains various C- and Python-based control scripts for the
-Keysight/Agilent E4438C Signal Generator. These tools are for LAN-based control.
-Note that the files getopt.c and lanio.c contained in ext/keysight are copies of
-the code originally presented in the Keysight document number E4400-90505, and
-I make no claim for credit for them other than their translation into a usable
-format.
+SGControl contains various C-based control programs for the Keysight/Agilent
+E4438C Signal Generator. These tools provide a means to perform LAN-based
+control by sending SCPI (Standard Commands for Programmable Instruments). Note
+that the directory "ext/keysight" contains reference copies of the original
+code snippets from various Keysight documents (such as document #E4400-90505),
+which have been reformatted and tested to confirm functionality. I make no
+claim to ownership for the content of those files, although they have been used
+as inspiration for much of the rest of the project's content.
+
+This set of utilities is not intended to be compatible with Windows operating
+systems at the moment; however, the legacy utilities (in "ext/keysight") in
+theory support both Unix- and Windows-based platforms (the latter has not been
+tested).
 
 ### Installation
 
-All binaries are written to the bin directory by default.
+All binaries are written to the project directory by default. There are several
+options available for compilation.
 
-To compile the lanio service, type:
+To compile the original Keysight utilities:
 
 ```
-make lanio
+make legacy
 ```
 
-To compile the echo_server (for testing purposes), type:
+To compile the main signal generator control tool (command sequencer):
+
+```
+make sg_sequence
+```
+
+To compile everything:
+
+```
+make all
+```
+
+To compile the echo server (debug utility):
+
 ```
 make echo
 ```
 
-The command "make clean" is also available to remove the binaries.
+The option "make clean" is also available, and further options will be added
+in the future to support encoding I/Q data in the E4438C's preferred format
+(16-bit, Big-Endian signed integers). Note that there is a phony rule in the
+Makefile that creates build and lib directories as necessary before compilation.
+
+### Prerequisites and Deployment
+
+SGControl should be compatible with any system supporting recent versions of
+the gcc compiler and the C standard libraries.
+
+The code in SGControl has been tested and run from two desktop machines and one
+laptop, all of which are/were running Fedora 26 and/or Fedora 27 64-bit at the
+time of development.
+
+In order to use the sg_sequence tool, the target device must be provided a known
+IP on the same network as the controlling machine. A sample signal generator IP
+is currently hard-coded in the sg_sequence.c file, so the IP provided must be
+entered in its place before use.
+
+### Authors
+
+* **Trevor Gamblin** - [threexc](https://github.com/threexc)

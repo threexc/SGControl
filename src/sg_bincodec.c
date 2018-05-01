@@ -78,8 +78,11 @@ int sg_bindec(double *i_array, double *q_array, int num_points,
 {
 	/* Swap bytes back to Little-Endian. This block should be the same as the
 	one used to encode to Big-Endian in sg_binenc */
+	int i;
+	char buf;
+	char *pChar;
 	pChar = (char *)&waveform_array[0];
-	for( i=0; i<2*num_points; i++ )
+	for(i = 0; i< 2*num_points; i++)
 	{
 		buf = *pChar;
 		*pChar = *(pChar+1);

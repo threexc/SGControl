@@ -11,9 +11,13 @@ version's baseline, while the "main" loop was discarded.
 
 #include <stdio.h>
 #include <stdlib.h>
+<<<<<<< HEAD
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
+=======
+#include <unistd.h>
+>>>>>>> e5c44ab99cf3476aa4e4f80d2b0848a4e80ec4fb
 #include "sg_control.h"
 
 /* TODO: Improve this main loop with an XML reader, or another way to add more
