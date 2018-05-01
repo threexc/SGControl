@@ -37,14 +37,25 @@ To compile everything:
 make all
 ```
 
+To compile the echo server (debug utility):
+
+```
+make echo
+```
+
 The option "make clean" is also available, and further options will be added
 in the future to support encoding I/Q data in the E4438C's preferred format
-(16-bit, Big-Endian signed integers).
+(16-bit, Big-Endian signed integers). Note that there is a phony rule in the
+Makefile that creates build and lib directories as necessary before compilation.
 
-### Prerequisites
+### Prerequisites and Deployment
 
 SGControl should be compatible with any system supporting recent versions of
 the gcc compiler and the C standard libraries.
+
+The code in SGControl has been tested and run from two desktop machines and one
+laptop, all of which are/were running Fedora 26 and/or Fedora 27 64-bit at the 
+time of development. 
 
 ### Authors
 
