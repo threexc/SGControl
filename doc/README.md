@@ -7,8 +7,15 @@ various settings should follow three simple rules:
 	means that you should avoid piping BIN or BIT data directly to the control
 	program), and ensure that there are no misspelled characters or extra
 	whitespace
-2. Follow the standard :<CMD>:<PARAM_1>:<PARAM_2>:...:<PARAM_N> <VAL> and/or
-	:<CMD>:<PARAM>? SCPL syntax convention **exactly**
+2. Follow the standard 
+
+    ```:<SYS_CMD>:<PARAM_1>:<PARAM_2>:...:<PARAM_N> <VAL>``` 
+
+	and/or
+	
+    ```:<SYS_CMD>:<PARAM>?```
+	
+	SCPL syntax convention **exactly**
 3. Whenever possible, follow a command that changes a setting by a command that
 	queries the instrument for that setting. This is to support debug, as the
 	output from queries is stored in the log file time-stamped according to when
