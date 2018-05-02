@@ -18,7 +18,7 @@ various settings should follow three simple rules:
 
 :RAD:CUST:STAT On\
 :FREQ:FIX 2.5GHZ\
-:POW:LEV -10.0DBM\
+:POW:LEV -10.0DBM
 
 and so on
 
@@ -29,6 +29,6 @@ and so on
 :FREQ:FIX 2.5GHZ\
 :FREQ?\
 :POW:LEV -10.0DBM\
-:POW?\
+:POW?
 
 etc.
