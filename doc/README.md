@@ -24,11 +24,11 @@ and so on
 
 ### Example 2 (good)
 
-:RAD:CUST:STAT On
-:RAD:CUST:STAT?
-:FREQ:FIX 2.5GHZ
-:FREQ?
-:POW:LEV -10.0DBM
-:POW?
+:RAD:CUST:STAT On\
+:RAD:CUST:STAT?\
+:FREQ:FIX 2.5GHZ\
+:FREQ?\
+:POW:LEV -10.0DBM\
+:POW?\
 
 etc.
