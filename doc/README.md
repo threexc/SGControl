@@ -16,9 +16,9 @@ various settings should follow three simple rules:
 
 ### Example 1 (bad)
 
-:RAD:CUST:STAT On
-:FREQ:FIX 2.5GHZ
-:POW:LEV -10.0DBM
+:RAD:CUST:STAT On\
+:FREQ:FIX 2.5GHZ\
+:POW:LEV -10.0DBM\
 
 and so on
 
