@@ -37,7 +37,7 @@ options available for compilation.
 To compile the main signal generator control tool (command sequencer):
 
 ```
-make sg_sequence
+make sgseq
 ```
 
 To compile the original Keysight utilities:
