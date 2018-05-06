@@ -12,11 +12,14 @@ MKDIR_P=mkdir -p
 LIBS= -lm
 
 # Not used right now, but will be in the future
-_ENC_DEPS=sg_binenc.h
+_ENC_DEPS=sg_bincodec.h
 ENC_DEPS=$(patsubst %,$(IDIR)/%,$(_ENC_DEPS))
 
 _CTL_DEPS=sg_control.h
 CTL_DEPS=$(patsubst %,$(IDIR)/%,$(_CTL_DEPS))
+
+_SIG_DEPS=ssbsc.h
+SIG_DEPS=$(patsubst %,$(IDIR)/%,$(_SIG_DEPS))
 
 # Not used right now, but will be in the future
 _ENC_OBJ=sg_bincodec.o
@@ -25,11 +28,14 @@ ENC_OBJ=$(patsubst %,$(ODIR)/%,$(_ENC_OBJ))
 _CTL_OBJ=sg_control.o sg_sequence.o
 CTL_OBJ=$(patsubst %,$(ODIR)/%,$(_CTL_OBJ))
 
-$(ODIR)/%.o: $(SRCDIR)/%.c $(ENC_DEPS) $(CTL_DEPS)
+_SIG_OBJ=ssbsc.o
+SIG_OBJ=$(patsubst %,$(ODIR)/%,$(_SIG_OBJ))
+
+$(ODIR)/%.o: $(SRCDIR)/%.c $(ENC_DEPS) $(CTL_DEPS) $(SIG_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 # Everything
-all: directories ks_lanio ks_iq echo sgseq
+all: directories ks_lanio ks_iq echo sgseq ssbsc
 
 # Make only the Keysight utilities
 legacy: directories ks_lanio ks_iq
@@ -47,6 +53,9 @@ sg_sequence: $(CTL_OBJ)
 # the tool is not (yet)
 #sg_bincodec: $(ENC_OBJ)
 #	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+ssbsc: $(SIG_OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 # Original LAN control tool for E4438C
 ks_lanio:
@@ -69,4 +78,4 @@ directories:
 
 clean:
 	rm -f $(ODIR)/*.o
-	rm -f ks_lanio echo_server ks_iq sg_sequence sg_binenc iq.txt
+	rm -f ks_lanio echo_server ks_iq sg_sequence sg_binenc ssbsc iq.txt
