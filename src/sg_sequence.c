@@ -110,19 +110,6 @@ int main(int argc, char *argv[])
         input_buf[strcspn(input_buf, "\n")] = 0;
         fprintf(log_file, "%s response: %s\n", input_buf, char_buf);
   }
-  /*
-  buf_bytes = query_instrument(inst_sock, "*IDN?\n", char_buf, INPUT_BUF_SIZE);
-  printf("ID: %s\n", char_buf);
-  command_instrument(inst_sock, "FREQ:FIX 2.5GHz\n");
-  printf("\n");
-  buf_bytes = query_instrument(inst_sock, "FREQ:CW?\n", char_buf,
-                               INPUT_BUF_SIZE);
-  printf("Frequency: %s\n", char_buf);
-  command_instrument(inst_sock, "POW:AMPL -5 dBm\n");
-  buf_bytes = query_instrument(inst_sock, "POW:AMPL?\n", char_buf,
-                               INPUT_BUF_SIZE);
-  printf("Power Level: %s\n", char_buf);
-  printf("\n"); */
 
   close(inst_sock);
   fclose(in_file);
