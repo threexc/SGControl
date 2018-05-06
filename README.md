@@ -70,7 +70,8 @@ necessary before compilation.
 A sample sequence file querying the instrument for status, ```sg_test_commands.txt```,
 is contained in the ```test/``` folder. This can be executed by the main program by
 typing ```./sg_sequence test/sg_test_commands.txt```. Examples of good practices
-for creating other sequence files are found in the ```doc/``` directory.
+for creating other sequence files, as well as sample files detailing how to load and 
+play BIN data files, are found in the ```doc/``` directory.
 
 ### Future Iterations
 
