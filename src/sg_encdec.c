@@ -2,8 +2,11 @@
 E4438C signal generator */
 
 /* Takes an input file consisting of either un-encoded I/Q data or encoded I/Q
-data and transform it to the other format, using a command-line option to
-specify which.
+data, as well as a count of the number of data points, and transform it to the
+other format, using a command-line option to specify which.
+
+argv[0] is program name, argv[1] is num_points, argv[2] is the data file name,
+argv[3] is the -e (encode) or -d (decode) option
 
 */
 
@@ -20,30 +23,51 @@ int main(int argc, char *argv[])
   /* Return immediately if no input file is specified, or too many arguments
   are passed. The program relies on fopen later on to ensure the file exists
   and/or is valid. */
-  if (argc < 3)
+  if (argc < 4)
   {
     printf("Not enough input arguments.\n");
     return 0;
   }
 
-  if (argc > 3)
+  if (argc > 4)
   {
     printf("Too many input arguments.\n");
     return 0;
   }
 
   int opt;
+  int num_points = atoi(argv[1]);
   while (opt = getopt (argc, argv, "e:d:")) != -1))
   {
-    switch (opt)
+    if (opt == 'e')
+    {
+      
+
+    }
+    else if (opt == 'd')
+    {
+
+    }
+    else
+    {
+      printf("Something went wrong during getopt.\n");
+      return -1;
+    }
+    /*switch (opt)
     {
       case 'e':
-        
+
+
+
 
       case 'd':
 
-    }
+    }*/
   }
+
+  free(waveform);
+
+  waveform = NULL;
 
 
 }
