@@ -37,11 +37,50 @@ int main(int argc, char *argv[])
 
   int opt;
   int num_points = atoi(argv[1]);
-  while (opt = getopt (argc, argv, "e:d:")) != -1))
+  int i;
+  FILE *in_file = NULL;
+
+  double *i_data;
+  double *q_data;
+
+  short int *waveform;
+
+  char *line_buf[100];
+
+  i_data = (double *) malloc(num_points * sizeof(double));
+  q_data = (double *) malloc(num_points * sizeof(double));
+  waveform = (short int *) malloc(2 * num_points * sizeof(short int));
+
+  in_file = fopen(argv[2], "r");
+  if (in_file == NULL)
+  {
+      perror("Could not open the data file.\n");
+  }
+
+  for (i = 0; i < num_points; i++)
+  {
+      double i_value;
+      double q_value;
+      fscanf(in_file, "%lf, %lf\n", &i_value, &q_value);
+      i_data[i] = i_value;
+      q_data[i] = q_value;
+  }
+
+  sg_binenc(i_data, q_data, num_points, waveform);
+
+
+
+  for (i = 0; i < 2*num_points; i++)
+  {
+      //printf("%lf, %lf read from array\n", i_data[i], q_data[i]);
+      printf("%d read from waveform array\n");
+  }
+
+  while (opt = getopt (argc, argv, "e:d:") != -1)
   {
     if (opt == 'e')
     {
-      
+
 
     }
     else if (opt == 'd')
@@ -53,21 +92,15 @@ int main(int argc, char *argv[])
       printf("Something went wrong during getopt.\n");
       return -1;
     }
-    /*switch (opt)
-    {
-      case 'e':
-
-
-
-
-      case 'd':
-
-    }*/
   }
 
-  free(waveform);
+  free(i_data);
+  free(q_data);
 
-  waveform = NULL;
+  i_data = NULL;
+  q_data = NULL;
+
+  return 0;
 
 
 }
