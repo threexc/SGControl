@@ -3,6 +3,7 @@ E4438C signal generator */
 
 #include <math.h>
 #include <stdio.h>
+#include <arpa/inet.h>
 
 /* sg_binenc - interleave and encode I/Q data according to E4438C requirements
 (16-bit signed, Big-Endian integers), then place it in an array allocated for

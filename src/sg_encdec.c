@@ -56,31 +56,53 @@ int main(int argc, char *argv[])
   {
       perror("Could not open the data file.\n");
   }
-
-  for (i = 0; i < num_points; i++)
+  if (strcmp(argv[3], "-e") == 0)
   {
-      double i_value;
-      double q_value;
-      fscanf(in_file, "%lf, %lf\n", &i_value, &q_value);
-      i_data[i] = i_value;
-      q_data[i] = q_value;
+    for (i = 0; i < num_points; i++)
+    {
+        double i_value;
+        double q_value;
+        fscanf(in_file, "%lf, %lf\n", &i_value, &q_value);
+        i_data[i] = i_value;
+        q_data[i] = q_value;
+    }
+
+    sg_binenc(i_data, q_data, num_points, waveform);
+
+  }
+  else if (strcmp(argv[3], "-d") == 0)
+  {
+      printf("Section not yet written.\n");
+      return -1;
+  }
+  else
+  {
+      printf("Bad option argument.\n");
+      return -1;
   }
 
-  sg_binenc(i_data, q_data, num_points, waveform);
-
-
-
-  for (i = 0; i < 2*num_points; i++)
-  {
-      //printf("%lf, %lf read from array\n", i_data[i], q_data[i]);
-      printf("%d read from waveform array\n");
-  }
-
-  while (opt = getopt (argc, argv, "e:d:") != -1)
+  /*while (opt = getopt (argc, argv, "e:d:") != -1)
   {
     if (opt == 'e')
     {
+        for (i = 0; i < num_points; i++)
+        {
+            printf("%f %f\n", i_data[i], q_data[i]);
+        }
+        for (i = 0; i < num_points; i++)
+        {
+            double i_value;
+            double q_value;
+            fscanf(in_file, "%lf, %lf\n", &i_value, &q_value);
+            i_data[i] = i_value;
+            q_data[i] = q_value;
+        }
 
+        sg_binenc(i_data, q_data, num_points, waveform);
+        for (i = 0; i < 2*num_points; i++)
+        {
+            printf("%f\n", waveform[i]);
+        }
 
     }
     else if (opt == 'd')
@@ -92,7 +114,7 @@ int main(int argc, char *argv[])
       printf("Something went wrong during getopt.\n");
       return -1;
     }
-  }
+}*/
 
   free(i_data);
   free(q_data);
