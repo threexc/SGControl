@@ -12,10 +12,16 @@ version's baseline, while the "main" loop was discarded.
 #include <stdio.h>
 #include <stdlib.h>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
 =======
+=======
+#include <time.h>
+#include <unistd.h>
+#include <string.h>
+>>>>>>> master
 #include <unistd.h>
 >>>>>>> e5c44ab99cf3476aa4e4f80d2b0848a4e80ec4fb
 #include "sg_control.h"
@@ -62,6 +68,7 @@ int main(int argc, char *argv[])
   /* Create the filename buffer */
   char log_filename[80] = "";
   snprintf(log_filename, sizeof(log_filename), "%s%s%s", "sgseq_", timestamp, ".log");
+<<<<<<< HEAD
 
   /* Remove logfile name whitespace and colons */
   int i = 0;
@@ -74,6 +81,20 @@ int main(int argc, char *argv[])
     i++;
   }
 
+=======
+
+  /* Remove logfile name whitespace and colons */
+  int i = 0;
+  while (log_filename[i])
+  {
+    if (log_filename[i] == ' ' || log_filename[i] == ':')
+    {
+        log_filename[i] = '_';
+    }
+    i++;
+  }
+
+>>>>>>> master
   /* Open the connection to the instrument. IP is currently hard-coded */
   inst_sock = open_socket("134.117.62.53", SCPI_PORT);
   if (inst_sock == INVALID_SOCKET)
@@ -100,6 +121,7 @@ int main(int argc, char *argv[])
 
   /* Always add the identification of the instrument to the log file before the
   test sequence results */
+<<<<<<< HEAD
   buf_bytes = query_instrument(inst_sock, "*IDN?\n", char_buf, INPUT_BUF_SIZE);
   fprintf(log_file, "Instrument ID: %s\n", char_buf);
 
@@ -126,6 +148,21 @@ int main(int argc, char *argv[])
                                INPUT_BUF_SIZE);
   printf("Power Level: %s\n", char_buf);
   printf("\n"); */
+=======
+  buf_bytes = query_instrument(inst_sock, "*IDN?\n", char_buf, INPUT_BUF_SIZE);
+  fprintf(log_file, "Instrument ID: %s\n", char_buf);
+
+  /* Read line-by-line from the input file, then write responses to the log */
+  while (fgets(input_buf, sizeof(input_buf), in_file))
+  {
+        buf_bytes = query_instrument(inst_sock, input_buf, char_buf,
+                                     INPUT_BUF_SIZE);
+        /* Remove newline from the fgets buffer only so that the log file will
+        be cleaner. Newline in query_instrument response is still present */
+        input_buf[strcspn(input_buf, "\n")] = 0;
+        fprintf(log_file, "%s response: %s\n", input_buf, char_buf);
+  }
+>>>>>>> master
 
   close(inst_sock);
   fclose(in_file);
