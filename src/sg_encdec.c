@@ -69,6 +69,19 @@ int main(int argc, char *argv[])
 
     sg_binenc(i_data, q_data, num_points, waveform);
 
+    char output_filename[80] = "";
+    snprintf(output_filename, sizeof(output_filename), "%s%s", argv[2], "_encoded");
+
+    FILE *stream = NULL;
+    stream = fopen(output_filename, "w+b");// Open the file
+    if (stream==NULL)
+  	{
+  		perror ("Cannot Open File");
+  	}
+
+    int numwritten = fwrite( (void *)waveform, sizeof(short int), num_points*2, stream );
+    fclose(stream);
+
   }
   else if (strcmp(argv[3], "-d") == 0)
   {
