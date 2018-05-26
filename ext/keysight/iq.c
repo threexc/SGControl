@@ -20,7 +20,7 @@ main(int argc, char *argv[])
 		qdata[index] = 23000 * cos((2*3.14*index)/num_samples);
 	}
 
-	char *ofile = "../iq.txt";
+	char *ofile = "test/iq.txt";
 	FILE *outfile = fopen(ofile, "w");
 	if (outfile==NULL)
 	{
