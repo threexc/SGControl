@@ -106,8 +106,6 @@ int main(int argc, char *argv[])
   /* Read line-by-line from the input file, then write responses to the log */
   while (fgets(input_buf, sizeof(input_buf), in_file))
   {
-        printf(input_buf);
-        printf(char_buf);
         buf_bytes = query_instrument(inst_sock, input_buf, char_buf,
                                      INPUT_BUF_SIZE);
         /* Remove newline from the fgets buffer only so that the log file will
