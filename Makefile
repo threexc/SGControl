@@ -22,7 +22,7 @@ _SIG_DEPS=ssbsc.h
 SIG_DEPS=$(patsubst %,$(IDIR)/%,$(_SIG_DEPS))
 
 # Not used right now, but will be in the future
-_ENC_OBJ=sg_bincodec.o
+_ENC_OBJ=sg_bincodec.o sg_encdec.o
 ENC_OBJ=$(patsubst %,$(ODIR)/%,$(_ENC_OBJ))
 
 _CTL_OBJ=sg_control.o sg_sequence.o
@@ -51,8 +51,8 @@ sg_sequence: $(CTL_OBJ)
 
 # Placeholder for the encoder/decoder tool. Libraries are written, but
 # the tool is not (yet)
-#sg_bincodec: $(ENC_OBJ)
-#	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+sg_encdec: $(ENC_OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 ssbsc: $(SIG_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
@@ -78,4 +78,4 @@ directories:
 
 clean:
 	rm -f $(ODIR)/*.o
-	rm -f ks_lanio echo_server ks_iq sg_sequence sg_binenc ssbsc iq.txt
+	rm -f ks_lanio echo_server ks_iq sg_sequence sg_encdec ssbsc iq.txt
