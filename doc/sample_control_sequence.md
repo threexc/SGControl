@@ -7,16 +7,17 @@ with ```sg_sequence```. Note that, as per ```creating_sequence_files.md```,
 each command message is followed by the corresponding status query.
 
 ```
-:RAD:CUST:DATA "BIN:<file_name>"
+:RAD:CUST:DATA P4
 :RAD:CUST:DATA?
 :RAD:CUST:STAT On
 :RAD:CUST:STAT?
-:FREQ:FIX 5.765GHZ
+:FREQ:FIX 1.0MHZ
 :FREQ?
 :POW:LEV -10.0DBM
 :POW?
+:RAD:CUST:MOD:TYPE QPSK
 :OUTP:MOD:STAT ON
-:OUTP:MOD:STAT?
+:OUTP:MOD?
 :OUTP:STAT ON
 :OUTP:STAT?
 ```
@@ -24,7 +25,8 @@ each command message is followed by the corresponding status query.
 The explanations for each command are as follows (queries are self-explanatory):
 
 1. ```:RAD:CUST:DATA``` sets the filename specified for use by the Custom
-subsystem of the digital real-time testing component (Chapter 8 of E4400-90622)
+subsystem of the digital real-time testing component. In this case, it is set
+to be a sequence of 4 1's and 4 0's (which is an E4438C built-in)
 2. ```:RAD:CUST:STAT``` enables or disables the Custom modulation
 3. ```:FREQ:FIX``` sets the output center frequency
 4. ```:POW:LEV``` sets the output power level

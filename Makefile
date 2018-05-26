@@ -35,7 +35,7 @@ $(ODIR)/%.o: $(SRCDIR)/%.c $(ENC_DEPS) $(CTL_DEPS) $(SIG_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 # Everything
-all: directories ks_lanio ks_iq echo sgseq ssbsc
+all: directories ks_lanio ks_iq echo sgseq sg_encdec ssbsc
 
 # Make only the Keysight utilities
 legacy: directories ks_lanio ks_iq
@@ -49,11 +49,11 @@ sgseq: directories sg_sequence
 sg_sequence: $(CTL_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-# Placeholder for the encoder/decoder tool. Libraries are written, but
-# the tool is not (yet)
+# Encoder/decoder tool for IQ data/modulation files
 sg_encdec: $(ENC_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+# "Modern" version of Keysight's SSBSC sample file creator
 ssbsc: $(SIG_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
