@@ -37,6 +37,7 @@ found:
 
 ```bin``` - Unused placeholder (will contain executables once a master Python-based
 program is implemented)
+
 ```lib``` - Placeholder for external libraries
 
 
@@ -131,7 +132,14 @@ in the file be specified, followed by the filename, and finally the -e (encode) 
 
 ```./sg_encdec 4 random_four -e```
 
+#### Logging
 
+The ```sg_sequence``` tool has command logging built-in, collecting responses received
+from the instrument and storing them in a time-stamped file in the top-level directory
+(this will change to a logs directory in future versions). This feature relies on use
+of query statements (i.e. commands sent to the instrument requesting status of an 
+interface, such as the RF output, where all of the commands end with a "?") following
+any command sent to modify settings.
 
 ### Future Iterations
 
