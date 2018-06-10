@@ -103,18 +103,10 @@ IP on the same network as the controlling machine. A sample signal generator IP
 is currently hard-coded in the ```sg_sequence.c``` file, so the IP provided must
 be entered in its place before use.
 
-#### Sending Command Sequences
-
-A sample sequence file querying the instrument for status, ```sg_test_commands.txt```,
-is contained in the ```test/``` folder. This can be executed by the main program by
-typing ```./sg_sequence test/sg_test_commands.txt```. Examples of good practices
-for creating other sequence files, as well as sample sequences detailing how to select
-and modulate simple data signals are found in the ```doc/``` directory.
-
 #### Encoding and Decoding IQ Data
 
 The encoder tool requires IQ data files be formatted with one IQ point per line,
-with a comma and single space separating them like so:
+with a comma and single space separating them as shown below:
 
 ```
 1.000, -0.394
@@ -131,6 +123,28 @@ in the file be specified, followed by the filename, and finally the -e (encode) 
 "random_four_encoded":
 
 ```./sg_encdec 4 random_four -e```
+
+**Note: The E4438C ARB waveform generator requires a minimum of 60 IQ data points to
+be present in a waveform file. If the IQ data file you intend to transfer contains 
+fewer than this number, it is best to duplicate the data until you have at least 60
+points.**
+
+#### Sending IQ Data Files
+
+The functionality listed throughout this project is (at this time) only intended 
+to work with the ARB waveform generator built into the E4438C. In order to transfer
+files created for use, the ```sg_ftp.py``` utility in the top-level folder is
+provided. The script takes the file to be transfered as the first and only argument.
+Files transfered in this way are loaded into the signal generator's volatile memory,
+and are therefore no longer present after the instrument has powered off.
+
+#### Sending Command Sequences
+
+A sample sequence file querying the instrument for status, ```sg_test_commands.txt```,
+is contained in the ```test/``` folder. This can be executed by the main program by
+typing ```./sg_sequence test/sg_test_commands.txt```. Examples of good practices
+for creating other sequence files, as well as sample sequences detailing how to select
+and modulate simple data signals are found in the ```doc/``` directory.
 
 #### Logging
 
