@@ -15,7 +15,7 @@ raw IQ data files for use as both modulation *and* data targets, and GUI-based
 sequence creation/queueing.
 
 
-### Project Structure
+## Project Structure
 
 The current list of subdirectories and their descriptions is as follows:
 
@@ -49,7 +49,7 @@ E4400-90505), which have been reformatted and tested to confirm functionality. I
 make no claim to credit for the content of those files, although they have been
 used as inspiration for much of the rest of the project's content.
 
-### Prerequisites and Deployment
+## Prerequisites and Deployment
 
 SGControl should be compatible with any system supporting recent versions of
 the gcc compiler and the C standard libraries. All of the Python utilities are
@@ -61,7 +61,7 @@ time of development. Code was developed in the [Atom](https://atom.io/) text edi
 with ```gcc``` and ```gdb``` used for building and debug.
 
 
-### Installation
+## Installation
 
 All binaries are written to the project directory by default. There are several
 options available for compilation.
@@ -99,14 +99,14 @@ make echo
 The option ```make clean``` is also available, as is ```make directories``` if
 the user wants to create the build directories independently for some reason.
 
-### Usage
+## Usage
 
 In order to use the sg_sequence tool, the target device must be provided a known
 IP on the same network as the controlling machine. A sample signal generator IP
 is currently hard-coded in the ```sg_sequence.c``` file, so the IP provided must
 be entered in its place before use.
 
-#### Encoding and Decoding IQ Data
+### Encoding and Decoding IQ Data
 
 The encoder tool requires IQ data files be formatted with one IQ point per line,
 with a comma and single space separating them as shown below:
@@ -132,7 +132,7 @@ be present in a waveform file. If the IQ data file you intend to transfer contai
 fewer than this number, it is best to duplicate the data until you have at least 60
 points.**
 
-#### Sending IQ Data Files
+### Sending IQ Data Files
 
 The functionality listed throughout this project is (at this time) only intended 
 to work with the ARB waveform generator built into the E4438C. In order to transfer
@@ -141,7 +141,7 @@ provided. The script takes the file to be transfered as the first and only argum
 Files transfered in this way are loaded into the signal generator's volatile memory,
 and are therefore no longer present after the instrument has powered off.
 
-#### Sending Command Sequences
+### Sending Command Sequences
 
 A sample sequence file querying the instrument for status, ```sg_test_commands.txt```,
 is contained in the ```test/``` folder. This can be executed by the main program by
@@ -149,7 +149,7 @@ typing ```./sg_sequence test/sg_test_commands.txt```. Examples of good practices
 for creating other sequence files, as well as sample sequences detailing how to select
 and modulate simple data signals are found in the ```doc/``` directory.
 
-#### Logging
+### Logging
 
 The ```sg_sequence``` tool has command logging built-in, collecting responses received
 from the instrument and storing them in a time-stamped file in the top-level directory
@@ -158,7 +158,7 @@ of query statements (i.e. commands sent to the instrument requesting status of a
 interface, such as the RF output, where all of the commands end with a "?") following
 any command sent to modify settings.
 
-### Future Iterations
+## Future Iterations
 
 Development is still active and ongoing. Current priorities include:
 
@@ -166,6 +166,6 @@ Development is still active and ongoing. Current priorities include:
 data in the E4438C's binary format (currently only supports encoding, not decoding)
 * A high-level Python control framework that includes a GUI option
 
-### Authors
+## Authors
 
 * **Trevor Gamblin** - [threexc](https://github.com/threexc)
