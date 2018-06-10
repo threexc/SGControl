@@ -40,6 +40,8 @@ program is implemented)
 
 ```lib``` - Placeholder for external libraries
 
+Some utilities for FTP transfers and waveform generation are included as Python
+scripts in the top-level folder.
 
 The directory ```ext/keysight``` contains reference copies of the
 original code snippets from various Keysight documents (such as document #
@@ -50,7 +52,8 @@ used as inspiration for much of the rest of the project's content.
 ### Prerequisites and Deployment
 
 SGControl should be compatible with any system supporting recent versions of
-the gcc compiler and the C standard libraries.
+the gcc compiler and the C standard libraries. All of the Python utilities are
+written in Python 3.
 
 The code in SGControl has been tested and run from two desktop machines and one
 laptop, all of which are/were running Fedora 26 and/or Fedora 27 64-bit at the
