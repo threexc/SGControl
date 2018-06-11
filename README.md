@@ -26,6 +26,9 @@ usage. Does *not* contain usable sequence files - these are kept in ```test```
 
 ```include``` - Header files for project tools
 
+```python``` - Python scripts for converting, plotting, creating, and transferring
+IQ modulation files
+
 ```src``` - Corresponding source files for project tools
 
 ```test``` - Key control sequence files, IQ waveforms for testing (also where the
@@ -136,7 +139,7 @@ points.**
 
 The functionality listed throughout this project is (at this time) only intended 
 to work with the ARB waveform generator built into the E4438C. In order to transfer
-files created for use, the ```sg_ftp.py``` utility in the top-level folder is
+files created for use, the ```sg_ftp.py``` utility in the ```python/``` folder is
 provided. The script takes the file to be transfered as the first and only argument.
 Files transfered in this way are loaded into the signal generator's volatile memory,
 and are therefore no longer present after the instrument has powered off.
