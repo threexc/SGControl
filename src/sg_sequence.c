@@ -106,8 +106,16 @@ int main(int argc, char *argv[])
   /* Read line-by-line from the input file, then write responses to the log */
   while (fgets(input_buf, sizeof(input_buf), in_file))
   {
-        buf_bytes = query_instrument(inst_sock, input_buf, char_buf,
-                                     INPUT_BUF_SIZE);
+        if(is_query(input_buf))
+        {
+          buf_bytes = query_instrument(inst_sock, input_buf, char_buf,
+                                       INPUT_BUF_SIZE);
+        }
+        else
+        {
+          command_instrument(inst_sock, input_buf);
+        }
+
         /* Remove newline from the fgets buffer only so that the log file will
         be cleaner. Newline in query_instrument response is still present */
         input_buf[strcspn(input_buf, "\n")] = 0;
